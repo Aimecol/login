@@ -132,6 +132,7 @@ $page_title = 'Settings';
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title><?= e($page_title) ?> — Login System</title>
+  <link rel="shortcut icon" href="https://images.aimecol.com/uploads/large/logo_691c45e2513cc_large.jpg" type="image/x-icon">
   <link rel="stylesheet" href="../css/main.css"/>
   <style>
     /* ── Settings layout ───────────────────────────────────── */

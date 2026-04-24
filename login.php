@@ -47,6 +47,7 @@ $csrf = $_SESSION['csrf_token'];
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign In — Login System</title>
+  <link rel="shortcut icon" href="https://images.aimecol.com/uploads/large/logo_691c45e2513cc_large.jpg" type="image/x-icon">
   <link rel="stylesheet" href="css/main.css"/>
   <style>
     .login-footer {
