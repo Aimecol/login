@@ -40,6 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$unread_q = $db->prepare('SELECT COUNT(*) AS c FROM messages WHERE to_id=? AND is_read=0');
+$unread_q->bind_param('i', $uid);
+$unread_q->execute();
+$unread_count = (int)$unread_q->get_result()->fetch_assoc()['c'];
+$unread_q->close();
+
 // ── Filters & Pagination ─────────────────────────────────────
 $search      = trim($_GET['q'] ?? '');
 $filter_role = $_GET['role'] ?? '';
@@ -119,6 +125,7 @@ $page_title = 'Session Logs';
       flex-wrap: wrap; padding: 1rem 1.5rem;
       border-bottom: 1px solid var(--border);
     }
+    .unread-dot { display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--danger);color:#fff;font-size:.65rem;font-weight:800;margin-left:.35rem; }
     .search-wrap { position: relative; flex: 1; min-width: 180px; }
     .search-wrap svg { position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); color:var(--text-dim); pointer-events:none; }
     .search-input {
@@ -192,6 +199,7 @@ $page_title = 'Session Logs';
       <div class="nav-section-label">Management</div>
       <a href="users.php" class="nav-item"><?= icon('users') ?>Users</a>
       <a href="sessions.php" class="nav-item active"><?= icon('activity') ?>Session Log</a>
+      <a href="messages.php" class="nav-item"><?= icon('mail') ?>Messages <?php if($unread_count): ?><span class="unread-dot"><?= $unread_count ?></span><?php endif;?></a>
       <div class="nav-section-label">System</div>
       <a href="permissions.php" class="nav-item"><?= icon('shield') ?>Permissions</a>
       <a href="database.php" class="nav-item"><?= icon('database') ?>Database</a>

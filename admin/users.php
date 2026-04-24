@@ -438,6 +438,7 @@ $page_title = 'User Management';
       <div class="nav-section-label">Management</div>
       <a href="users.php" class="nav-item active"><?= icon('users') ?>Users</a>
       <a href="sessions.php" class="nav-item"><?= icon('activity') ?>Session Log</a>
+      <a href="messages.php" class="nav-item"><?= icon('mail') ?>Messages</a>
       <div class="nav-section-label">System</div>
       <a href="permissions.php" class="nav-item"><?= icon('shield') ?>Permissions</a>
       <a href="database.php" class="nav-item"><?= icon('database') ?>Database</a>
@@ -626,16 +627,16 @@ $page_title = 'User Management';
       <div class="form-row">
         <div class="form-group">
           <label>Full Name</label>
-          <input class="form-control" type="text" name="full_name" required placeholder="Jane Doe"/>
+          <input class="form-control" type="text" name="full_name" required placeholder="Aimecol Mazimpaka"/>
         </div>
         <div class="form-group">
           <label>Username</label>
-          <input class="form-control" type="text" name="username" required placeholder="janedoe"/>
+          <input class="form-control" type="text" name="username" required placeholder="Aimecol"/>
         </div>
       </div>
       <div class="form-group">
         <label>Email Address</label>
-        <input class="form-control" type="email" name="email" required placeholder="jane@example.com"/>
+        <input class="form-control" type="email" name="email" required placeholder="aimecol@example.com"/>
       </div>
       <div class="form-row">
         <div class="form-group">
@@ -647,7 +648,7 @@ $page_title = 'User Management';
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input class="form-control" type="password" name="password" required placeholder="Min 6 chars"/>
+          <input class="form-control" type="password" name="password" required placeholder="Min 3 chars"/>
         </div>
       </div>
       <div class="form-group">

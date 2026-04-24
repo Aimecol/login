@@ -12,6 +12,12 @@ $db = db();
 
 // ── Fetch stats ──────────────────────────────────────────────
 
+$unread_q = $db->prepare('SELECT COUNT(*) AS c FROM messages WHERE to_id=? AND is_read=0');
+$unread_q->bind_param('i', $uid);
+$unread_q->execute();
+$unread_count = (int)$unread_q->get_result()->fetch_assoc()['c'];
+$unread_q->close();
+
 // Total users
 $res         = $db->query('SELECT COUNT(*) AS cnt FROM users');
 $total_users = (int)($res->fetch_assoc()['cnt'] ?? 0);
@@ -93,6 +99,7 @@ $page_title = 'Admin Dashboard';
       cursor: pointer;
       color: var(--text-muted);
     }
+    .unread-dot { display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--danger);color:#fff;font-size:.65rem;font-weight:800;margin-left:.35rem; }
 
     @media(max-width:768px) { .mobile-menu-btn { display: flex; align-items: center; } }
   </style>
@@ -138,6 +145,14 @@ $page_title = 'Admin Dashboard';
         Session Log
       </a>
 
+      <a href="messages.php" class="nav-item">
+        <?= icon('mail') ?>
+        Messages 
+        <?php if($unread_count): ?>
+          <span class="unread-dot"><?= $unread_count ?></span>
+        <?php endif;?>
+      </a>
+
       <div class="nav-section-label">System</div>
 
       <a href="permissions.php" class="nav-item">
@@ -156,7 +171,7 @@ $page_title = 'Admin Dashboard';
       </a>
 
       <div class="nav-section-label">Account</div>
-      
+
       <a href="profile.php" class="nav-item"><?= icon('profile') ?>My Profile</a>
     </nav>
 

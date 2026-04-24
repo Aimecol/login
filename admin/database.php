@@ -54,6 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$unread_q = $db->prepare('SELECT COUNT(*) AS c FROM messages WHERE to_id=? AND is_read=0');
+$unread_q->bind_param('i', $uid);
+$unread_q->execute();
+$unread_count = (int)$unread_q->get_result()->fetch_assoc()['c'];
+$unread_q->close();
+
 // ── Gather DB info ───────────────────────────────────────────
 // Tables info
 $tables_info = [];
@@ -108,7 +114,23 @@ $export_sql .= ($create_row['Create Table'] ?? '') . ";\n\n";
 $create_res2 = $db->query("SHOW CREATE TABLE session_log");
 $create_row2 = $create_res2->fetch_assoc();
 $export_sql .= "-- Table: session_log\n";
-$export_sql .= ($create_row2['Create Table'] ?? '') . ";\n";
+$export_sql .= ($create_row2['Create Table'] ?? '') . ";\n\n";
+$create_res3 = $db->query("SHOW CREATE TABLE notifications");
+$create_row3 = $create_res3->fetch_assoc();
+$export_sql .= "-- Table: notifications\n";
+$export_sql .= ($create_row3['Create Table'] ?? '') . ";\n\n";
+$create_res4 = $db->query("SHOW CREATE TABLE messages");
+$create_row4 = $create_res4->fetch_assoc();
+$export_sql .= "-- Table: messages\n";
+$export_sql .= ($create_row4['Create Table'] ?? '') . ";\n\n";
+$create_res5 = $db->query("SHOW CREATE TABLE system_settings");
+$create_row5 = $create_res5->fetch_assoc();
+$export_sql .= "-- Table: system_settings\n";
+$export_sql .= ($create_row5['Create Table'] ?? '') . ";\n\n";
+$create_res6 = $db->query("SHOW CREATE TABLE permissions");
+$create_row6 = $create_res6->fetch_assoc();
+$export_sql .= "-- Table: permissions\n";
+$export_sql .= ($create_row6['Create Table'] ?? '') . ";\n\n";
 
 $page_title = 'Database';
 ?>
@@ -121,6 +143,7 @@ $page_title = 'Database';
   <link rel="stylesheet" href="../css/main.css"/>
   <style>
     .db-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
+    .unread-dot { display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--danger);color:#fff;font-size:.65rem;font-weight:800;margin-left:.35rem; }
     .db-stat { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.5rem; display:flex; align-items:center; gap:1rem; }
     .db-stat-icon { width:42px;height:42px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
     .db-stat-val  { font-family:var(--font-display);font-size:1.5rem;font-weight:800;line-height:1; }
@@ -196,6 +219,7 @@ $page_title = 'Database';
       <div class="nav-section-label">Management</div>
       <a href="users.php" class="nav-item"><?= icon('users') ?>Users</a>
       <a href="sessions.php" class="nav-item"><?= icon('activity') ?>Session Log</a>
+      <a href="messages.php" class="nav-item"><?= icon('mail') ?>Messages <?php if($unread_count): ?><span class="unread-dot"><?= $unread_count ?></span><?php endif;?></a>
       <div class="nav-section-label">System</div>
       <a href="permissions.php" class="nav-item"><?= icon('shield') ?>Permissions</a>
       <a href="database.php" class="nav-item active"><?= icon('database') ?>Database</a>
@@ -433,7 +457,7 @@ $page_title = 'Database';
       <div class="section-card">
         <div class="section-card-header">
           <h2><?= icon('reports') ?> SQL Schema Export</h2>
-          <button onclick="copySQL()" class="btn btn-outline" style="font-size:0.8rem;padding:0.45rem 0.9rem;"><?= icon('reports','',14) ?> Copy SQL</button>
+          <button onclick="copySQL(event)" class="btn btn-outline" style="font-size:0.8rem;padding:0.45rem 0.9rem;"><?= icon('reports','',14) ?> Copy SQL</button>
         </div>
         <div style="padding:1.5rem;">
           <pre class="export-pre" id="exportPre"><?= e($export_sql) ?></pre>
@@ -445,14 +469,20 @@ $page_title = 'Database';
 </div>
 
 <script>
-function copySQL() {
+function copySQL(event) {
   const text = document.getElementById('exportPre').textContent;
+  const btn  = event && event.target ? event.target.closest('button') : null;
+  if (!navigator.clipboard) {
+    // Fallback for non-HTTPS or older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    if (btn) { const o = btn.innerHTML; btn.textContent = '✓ Copied!'; setTimeout(() => btn.innerHTML = o, 2000); }
+    return;
+  }
   navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target.closest('button');
-    const orig = btn.innerHTML;
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => btn.innerHTML = orig, 2000);
-  });
+    if (btn) { const orig = btn.innerHTML; btn.textContent = '✓ Copied!'; setTimeout(() => btn.innerHTML = orig, 2000); }
+  }).catch(() => alert('Copy failed — please select and copy the text manually.'));
 }
 
 const menuToggle = document.getElementById('menuToggle');

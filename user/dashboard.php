@@ -144,40 +144,13 @@ $page_title = 'My Dashboard';
 
     <nav class="sidebar-nav">
       <div class="nav-section-label">Main</div>
-
-      <a href="dashboard.php" class="nav-item active">
-        <?= icon('home') ?>
-        Dashboard
-      </a>
-
+      <a href="dashboard.php" class="nav-item"><?= icon('dashboard') ?>Dashboard</a>
       <div class="nav-section-label">Account</div>
-
-      <a href="#profile-section" class="nav-item">
-        <?= icon('profile') ?>
-        My Profile
-      </a>
-
-      <a href="#sessions-section" class="nav-item">
-        <?= icon('clock') ?>
-        Login History
-      </a>
-
-      <a href="#" class="nav-item">
-        <?= icon('mail') ?>
-        Messages
-      </a>
-
-      <div class="nav-section-label">Settings</div>
-
-      <a href="#" class="nav-item">
-        <?= icon('key') ?>
-        Change Password
-      </a>
-
-      <a href="#" class="nav-item">
-        <?= icon('bell') ?>
-        Notifications
-      </a>
+      <a href="profile.php" class="nav-item active"><?= icon('profile') ?>My Profile</a>
+      <a href="login_history.php" class="nav-item"><?= icon('activity') ?>Login History</a>
+      <a href="messages.php" class="nav-item"><?= icon('mail') ?>Messages</a>
+      <a href="change_password.php" class="nav-item"><?= icon('key') ?>Change Password</a>
+      <a href="notifications.php" class="nav-item"><?= icon('bell') ?>Notifications</a>
     </nav>
 
     <div class="sidebar-footer">
