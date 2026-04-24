@@ -358,7 +358,7 @@ $page_title = 'Database';
                 ];
                 foreach ($shortcuts as $sc): ?>
                 <button type="button" class="btn btn-outline" style="font-size:0.75rem;padding:0.35rem 0.7rem;"
-                  onclick="document.querySelector('.query-textarea').value = <?= json_encode($sc) ?>"><?= e($sc) ?></button>
+                  onclick='document.querySelector(".query-textarea").value = <?= json_encode($sc) ?>'><?= e($sc) ?></button>
                 <?php endforeach; ?>
               </div>
             </div>
@@ -414,12 +414,12 @@ function copySQL(event) {
     const ta = document.createElement('textarea');
     ta.value = text; document.body.appendChild(ta); ta.select();
     document.execCommand('copy'); document.body.removeChild(ta);
-    if (btn) { const o = btn.innerHTML; btn.textContent = '✓ Copied!'; setTimeout(() => btn.innerHTML = o, 2000); }
+    if (btn) { const o = btn.innerHTML; btn.textContent = 'Copied!'; setTimeout(() => btn.innerHTML = o, 2000); }
     return;
   }
   navigator.clipboard.writeText(text).then(() => {
-    if (btn) { const orig = btn.innerHTML; btn.textContent = '✓ Copied!'; setTimeout(() => btn.innerHTML = orig, 2000); }
-  }).catch(() => alert('Copy failed — please select and copy the text manually.'));
+    if (btn) { const orig = btn.innerHTML; btn.textContent = 'Copied!'; setTimeout(() => btn.innerHTML = orig, 2000); }
+  }).catch(() => alert('Copy failed - please select and copy the text manually.'));
 }
 
 const menuToggle = document.getElementById('menuToggle');
