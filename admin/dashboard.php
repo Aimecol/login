@@ -181,6 +181,10 @@ $page_title = 'Admin Dashboard';
       </div>
       <div class="topbar-actions">
         <span style="font-size:0.8rem;color:var(--text-muted);"><?= date('D, d M Y') ?></span>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+          <span class="icon-moon"><?= icon('moon', '', 16) ?></span>
+          <span class="icon-sun"><?= icon('sun', '', 16) ?></span>
+        </button>
         <?= icon('bell', '', 20) ?>
         <div class="avatar avatar-admin" style="font-size:0.65rem;"><?= e(current_initials()) ?></div>
       </div>
@@ -319,6 +323,19 @@ $page_title = 'Admin Dashboard';
   if (toggle) {
     toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
   }
+
+  // Theme toggle
+  (function() {
+    const html  = document.documentElement;
+    const btn   = document.getElementById('themeToggle');
+    const saved = localStorage.getItem('theme') || 'light';
+    if (saved === 'dark') html.setAttribute('data-theme', 'dark');
+    btn.addEventListener('click', function() {
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    });
+  })();
 </script>
 </body>
 </html>

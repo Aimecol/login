@@ -105,6 +105,12 @@ $csrf = $_SESSION['csrf_token'];
   </style>
 </head>
 <body>
+  <!-- Theme toggle (fixed top-right) -->
+  <button class="theme-toggle login-theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+    <span class="icon-moon"><?= icon('moon', '', 18) ?></span>
+    <span class="icon-sun"><?= icon('sun', '', 18) ?></span>
+  </button>
+
   <div class="page-bg-accent"></div>
 
   <main class="page-center">
@@ -206,6 +212,19 @@ $csrf = $_SESSION['csrf_token'];
       btn.classList.add('loading');
       btn.disabled = true;
     });
+
+    // Theme toggle
+    (function() {
+      const html = document.documentElement;
+      const btn  = document.getElementById('themeToggle');
+      const saved = localStorage.getItem('theme') || 'light';
+      if (saved === 'dark') html.setAttribute('data-theme', 'dark');
+      btn.addEventListener('click', function() {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      });
+    })();
   </script>
 </body>
 </html>
