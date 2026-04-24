@@ -128,32 +128,36 @@ $page_title = 'Admin Dashboard';
 
       <div class="nav-section-label">Management</div>
 
-      <a href="#users-section" class="nav-item">
+      <a href="./users.php" class="nav-item">
         <?= icon('users') ?>
         Users
       </a>
 
-      <a href="#sessions-section" class="nav-item">
+      <a href="sessions.php" class="nav-item">
         <?= icon('activity') ?>
         Session Log
       </a>
 
       <div class="nav-section-label">System</div>
 
-      <a href="#" class="nav-item">
+      <a href="permissions.php" class="nav-item">
         <?= icon('shield') ?>
         Permissions
       </a>
 
-      <a href="#" class="nav-item">
+      <a href="database.php" class="nav-item">
         <?= icon('database') ?>
         Database
       </a>
 
-      <a href="#" class="nav-item">
+      <a href="settings.php" class="nav-item">
         <?= icon('settings') ?>
         Settings
       </a>
+
+      <div class="nav-section-label">Account</div>
+      
+      <a href="profile.php" class="nav-item"><?= icon('profile') ?>My Profile</a>
     </nav>
 
     <div class="sidebar-footer">
